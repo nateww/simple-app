@@ -189,7 +189,44 @@ And, for grins, you can use curl.
 Not covered is setting up SSL certificates to the sites, or discussions
 of internal vs. external services (databases, etc...).
 
-References:
+### Cleanup
+
+To cleanup, we follow similar steps, just in reverse order.
+
+#### Destroy the endpoint
+
+Or, in Aptible terms, deprovision the endpoint. You'll need the endpoint
+hostname, which can be fetchd from the console, or was the output from
+the initial endpoint provisioning step.
+
+```
+Hostname: elb-shared-us-east-1-wat-29954.aptible.in
+```
+
+```
+    aptible endpoints:deprovision --app ruby-test elb-shared-us-east-1-wat-29954.aptible.in
+
+```
+
+[ You would think using the hostname would be more useful, but Aptible. ]
+
+#### Destroy the app
+
+Again, Aptible likes using the term deprovision
+
+```
+    aptible apps:deprovision --app ruby-test
+```
+
+#### Destroy the environment
+
+Again, like setting it up, this must be done from the console.
+Select the environment, and the further left tab is Deprovision. Select
+that tab and follow the steps to remove the environment.
+
+
+## References:
+
 - https://deploy-docs.aptible.com/docs/ruby-quickstart
 - https://deploy-docs.aptible.com/docs/expose-web-app
 - https://deploy-docs.aptible.com/docs/cli-endpoints-https-create
