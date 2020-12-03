@@ -6,6 +6,7 @@ RUN apk --no-cache update && apk --no-cache upgrade && \
       build-base \
       curl \
       mariadb-dev \
+      nodejs-current \
       sqlite-dev &&\
     gem update --system
 
@@ -16,12 +17,7 @@ RUN bundle install
 
 ADD . /app
 
-# Collect assets. This approach is not fully production-ready, but
-# will help you experiment with Aptible Deploy before bothering with assets.
-# Review http://go.aptible.com/assets for production-ready advice.
-RUN set -a && \
-    . ./.aptible.env && \
-    bundle exec rake assets:precompile
+RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
 
