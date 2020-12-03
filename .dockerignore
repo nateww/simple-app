@@ -1,0 +1,8 @@
+.dockerignore
+.git*
+Dockerfile*
+**/*.md
+**/node_modules
+**/build
+log/*
+tmp/*
