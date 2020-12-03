@@ -4,9 +4,10 @@ FROM ruby:2.6.6-alpine
 RUN apk --no-cache update && apk --no-cache upgrade && \
     apk --no-cache add \
       build-base \
-      curl && \
+      curl \
+      mariadb-dev \
+      sqlite-dev &&\
     gem update --system
-
 
 ADD Gemfile Gemfile.lock /app/
 
