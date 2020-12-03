@@ -7,9 +7,16 @@ RUN apk --no-cache update && apk --no-cache upgrade && \
       curl \
       mariadb-dev \
       nodejs-current \
-      sqlite-dev &&\
+      sqlite-dev \
+      tzdata && \
     gem update --system
 
+# Set the timezone
+ENV TZ=America/Denver
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo "$TZ" > /etc/timezone
+
+# Allows for better caching
 ADD Gemfile Gemfile.lock /app/
 
 WORKDIR /app
