@@ -41,13 +41,13 @@ Note, it doesn't appear that the environment can be creatd from the CLI tools.
 On the command line, create a new Application in the new test environment,
 by running the command below:
 ```
-    aptible apps:create ruby-test --environment test-environment
+    % aptible apps:create ruby-test --environment test-environment
 ```
 
 The output of this will generate something similar to the following:
 ```
-    App ruby-test created!
-    Git Remote: git@beta.aptible.com:test-environment/ruby-test.git
+App ruby-test created!
+Git Remote: git@beta.aptible.com:test-environment/ruby-test.git
 ```
 
 You'll need to remember this remote and use it in the next step.  Similarly
@@ -63,7 +63,7 @@ current directory, run the following command, using the Git Remote returned
 above.
 
 ```
-    git remote add aptible git@HOST.aptible.com:ENVIRONMENT/HANDLE.git
+    % git remote add aptible git@HOST.aptible.com:ENVIRONMENT/HANDLE.git
 ```
 
 Where HOST, ENVIRONMENT, and HANDLE are from above.
@@ -72,7 +72,7 @@ The next step is to push the contents of the repo to aptible, which will
 cause the application (docker image) to get built, and deployed.
 
 ```
-    git push -u aptible master
+    % git push -u aptible master
 ```
 
 You should see a number of log lines generated, looking something like the
@@ -132,7 +132,7 @@ Aptible calls this step exposing the web app to the internet.
 First, we need to create an endpoint
 
 ```
-    aptible endpoints:https:create --app ruby-test --default-domain --port=3000 cmd
+    % aptible endpoints:https:create --app ruby-test --default-domain --port=3000 cmd
 ```
 
 * _--app_ : ruby-tesst (the HANDLE of the application as registered above)
@@ -183,7 +183,7 @@ https://app-24208.on-aptible.com/
 And, for grins, you can use curl.
 
 ```
-    curl -sS https://app-24208.on-aptible.com/
+    % curl -sS https://app-24208.on-aptible.com/
 ```
 
 Not covered is setting up SSL certificates to the sites, or discussions
@@ -204,8 +204,7 @@ Hostname: elb-shared-us-east-1-wat-29954.aptible.in
 ```
 
 ```
-    aptible endpoints:deprovision --app ruby-test elb-shared-us-east-1-wat-29954.aptible.in
-
+    % aptible endpoints:deprovision --app ruby-test elb-shared-us-east-1-wat-29954.aptible.in
 ```
 
 [ You would think using the hostname would be more useful, but Aptible. ]
@@ -215,7 +214,7 @@ Hostname: elb-shared-us-east-1-wat-29954.aptible.in
 Again, Aptible likes using the term deprovision
 
 ```
-    aptible apps:deprovision --app ruby-test
+    % aptible apps:deprovision --app ruby-test
 ```
 
 #### Destroy the environment
