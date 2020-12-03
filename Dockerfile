@@ -15,14 +15,18 @@ RUN apk --no-cache update && apk --no-cache upgrade && \
 ADD Gemfile Gemfile.lock /app/
 
 WORKDIR /app
-RUN bundle install && \
+RUN bundle config --local frozen true && \
+    # See https://northsail.io/articles/ruby-sassc-illegal-instruction
+    bundle config --local build.sassc --disable-march-tune-native && \
+    bundle install -j4 --retry 3 && \
     # Remove unneeded files (cached *.gem, *.o, *.c)
     rm -rf /usr/local/bundle/cache/*.gem && \
     find /usr/local/bundle/gems -name "*.[co]" -delete
 
-ADD . /app
+COPY . /app
 
-RUN bundle exec rake assets:precompile
+RUN RAILS_ENV=production \
+    bundle exec rake assets:precompile
 
 #
 # The final image: start clean
