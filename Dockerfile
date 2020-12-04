@@ -18,7 +18,7 @@ WORKDIR /app
 RUN bundle config --local frozen true && \
     # See https://northsail.io/articles/ruby-sassc-illegal-instruction
     bundle config --local build.sassc --disable-march-tune-native && \
-    bundle install -j4 --retry 3 && \
+    bundle install -j4 --retry 3 --without development test && \
     # Remove unneeded files (cached *.gem, *.o, *.c)
     rm -rf /usr/local/bundle/cache/*.gem && \
     find /usr/local/bundle/gems -name "*.[co]" -delete
@@ -47,6 +47,11 @@ RUN apk --no-cache update && apk --no-cache upgrade && \
 ENV TZ=America/Denver
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo "$TZ" > /etc/timezone
+
+# Configure some ENV variables for proper rails behavior
+ENV RAILS_ENV=production \
+    RAILS_LOG_TO_STDOUT=true \
+    RAILS_SERVE_STATIC_FILES=true
 
 RUN mkdir /app
 WORKDIR /app
