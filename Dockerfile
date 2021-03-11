@@ -1,4 +1,4 @@
-FROM ruby:2.6.6-alpine as builder
+FROM ruby:2.7.2-alpine as builder
 
 # System prerequisites
 RUN apk --no-cache update && apk --no-cache upgrade && \
@@ -18,7 +18,8 @@ WORKDIR /app
 RUN bundle config --local frozen true && \
     # See https://northsail.io/articles/ruby-sassc-illegal-instruction
     bundle config --local build.sassc --disable-march-tune-native && \
-    bundle install -j4 --retry 3 --without development test && \
+    bundle config --local --without 'development test' && \
+    bundle install -j4 --retry 3 && \
     # Remove unneeded files (cached *.gem, *.o, *.c)
     rm -rf /usr/local/bundle/cache/*.gem && \
     find /usr/local/bundle/gems -name "*.[co]" -delete
@@ -31,7 +32,7 @@ RUN RAILS_ENV=production \
 #
 # The final image: start clean
 #
-FROM ruby:2.6.6-alpine
+FROM ruby:2.7.2-alpine
 
 # Get the box updated and install any necessary runtime packages
 RUN apk --no-cache update && apk --no-cache upgrade && \
